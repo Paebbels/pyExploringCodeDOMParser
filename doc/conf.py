@@ -22,11 +22,11 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'pyExploringCodeDOMParser'
-copyright = '2017-2019, Patrick Lehmann'
+copyright = '2007-2019, Patrick Lehmann'
 author = 'Patrick Lehmann'
 
 # The full version, including alpha/beta/rc tags
-release = 'v0.1'
+release = 'v1.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -86,8 +86,8 @@ html_static_path = ['_static']
 # Sphinx.Ext.InterSphinx
 # ==============================================================================
 intersphinx_mapping = {
-	'python':   ('https://docs.python.org/3', None),
-#	'pyFlags':  ('http://pyFlags.readthedocs.io/en/latest', None),
+	'python':       ('https://docs.python.org/3', None),
+	'pyTokenizer':  ('http://pyTokenizer.readthedocs.io/en/latest', None),
 }
 
 
@@ -95,10 +95,10 @@ intersphinx_mapping = {
 # Sphinx.Ext.ExtLinks
 # ==============================================================================
 extlinks = {
-	'issue': ('https://github.com/Paebbels/pyGenericPath/issues/%s', 'issue #'),
-	'pull':  ('https://github.com/Paebbels/pyGenericPath/pull/%s', 'pull request #'),
-	'src':   ('https://github.com/Paebbels/pyGenericPath/blob/master/pyGenericPath/%s?ts=2', None),
-#	'test':  ('https://github.com/Paebbels/pyGenericPath/blob/master/test/%s?ts=2', None)
+	'issue': ('https://github.com/Paebbels/pyExploringCodeDOMParser/issues/%s', 'issue #'),
+	'pull':  ('https://github.com/Paebbels/pyExploringCodeDOMParser/pull/%s', 'pull request #'),
+	'src':   ('https://github.com/Paebbels/pyExploringCodeDOMParser/blob/master/pyExploringCodeDOMParser/%s?ts=2', None),
+#	'test':  ('https://github.com/Paebbels/pyExploringCodeDOMParser/blob/master/test/%s?ts=2', None)
 }
 
 
