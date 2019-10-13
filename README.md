@@ -9,7 +9,7 @@
 
 # pyExploringCodeDOMParser
 
-
+An exploring Code-DOM parser.
 
 ## Contributors:
 

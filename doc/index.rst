@@ -1,6 +1,8 @@
 pyExploringCodeDOMParser Documentation
 ######################################
 
+An exploring Code-DOM parser.
+
 .. note::
 
    Write the documentation
