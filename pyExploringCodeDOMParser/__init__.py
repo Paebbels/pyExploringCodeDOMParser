@@ -86,12 +86,14 @@ DEBUG =   False#True
 # Base classes
 # ==============================================================================
 class CodeDOMMeta(type):
+	"""A meta-class, that implements a base set of methods in every class definition."""
 	def parse(mcls):
 		result = mcls()
 		return result
 
 	@staticmethod
 	def GetChoiceParser(choices):
+		"""Returns a generator object that implements multiple choices."""
 		if DEBUG: print("init ChoiceParser")
 		parsers = []
 		for choice in choices:
@@ -125,6 +127,7 @@ class CodeDOMMeta(type):
 
 	@staticmethod
 	def GetRepeatParser(callback, generator):
+		"""Returns a generator object that implements repetitions."""
 		if DEBUG: print("init RepeatParser")
 		parser = generator()
 		parser.send(None)
@@ -149,17 +152,19 @@ class CodeDOMMeta(type):
 
 
 class CodeDOMObject(metaclass=CodeDOMMeta):
+	"""Base-class for all CodeDOM objects."""
 	def __init__(self):
 		super().__init__()
 
 	@classmethod
 	def Parse(cls, string, printChar):
+		"""Parse a given token."""
+
 		parser = cls.GetParser()
 		parser.send(None)
 
 		try:
 			for token in Tokenizer.GetWordTokenizer(string):
-				#if printChar: print("{BLUE}{token!s}{NOCOLOR}".format(token=token, **Init.Foreground))
 				parser.send(token)
 
 			# FIXME: print("send empty token")
@@ -176,18 +181,27 @@ class CodeDOMObject(metaclass=CodeDOMMeta):
 # Expressions
 # ==============================================================================
 class Expression(CodeDOMObject):
+	"""Base-class for all expressions."""
+
 	pass
 
 class UnaryExpression(Expression):
+	"""Base-class for all unary expressions."""
+
+	_child : CodeDOMObject = None   #: sub-element in the parser tree
+
 	def __init__(self, child):
 		super().__init__()
 		self._child = child
 
 	@property
 	def Child(self):
+		"""Returns the sub-element in the parser tree."""
 		return self._child
 
 class NotExpression(UnaryExpression):
+	"""Unary expression for operator *not*."""
+
 	def __init__(self, child):
 		super().__init__(child)
 
@@ -228,6 +242,11 @@ class NotExpression(UnaryExpression):
 		return "not {0}".format(self._child.__str__())
 
 class BinaryExpression(Expression):
+	"""Base-class for all binary expressions."""
+
+	_leftChild :  CodeDOMObject = None    #: left sub-element in the parser tree
+	_rightChild : CodeDOMObject = None    #: right sub-element in the parser tree
+
 	def __init__(self, leftChild, rightChild):
 		super().__init__()
 		self._leftChild =   leftChild
@@ -235,16 +254,18 @@ class BinaryExpression(Expression):
 
 	@property
 	def LeftChild(self):
+		"""Returns the left sub-element in the parser tree."""
 		return self._leftChild
 
 	@property
 	def RightChild(self):
+		"""Returns the right sub-element in the parser tree."""
 		return self._rightChild
 
-	__PARSER_NAME__ =             None
-	__PARSER_LHS_EXPRESSIONS__ =  None
-	__PARSER_RHS_EXPRESSIONS__ =  None
-	__PARSER_OPERATOR__ =         None
+	__PARSER_NAME__ :            str =            None    #: Name of the parser
+	__PARSER_LHS_EXPRESSIONS__ : CodeDOMObject =  None    #: left-hand-side expression
+	__PARSER_RHS_EXPRESSIONS__ : CodeDOMObject =  None    #: right-hand-side expression
+	__PARSER_OPERATOR__        : str =            None    #: operator symbol / pattern
 
 	@classmethod
 	def GetParser(cls):
@@ -337,62 +358,86 @@ class BinaryExpression(Expression):
 		return "({left!s} {op} {right!s})".format(left=self._leftChild, op=op, right=self._rightChild)
 
 class LogicalExpression(BinaryExpression):
+	"""Base-class for all logical expressions."""
 	pass
 
 class CompareExpression(LogicalExpression):
+	"""Base-class for all comparison expressions."""
 	pass
 
 class EqualExpression(CompareExpression):
+	"""An *equal* expression."""
+
 	__PARSER_NAME__ =             "EqualExpressionParser"
 	__PARSER_OPERATOR__ =         ("=",)
 
 
 class UnequalExpression(CompareExpression):
+	"""An *unequal* expression."""
+
 	__PARSER_NAME__ =             "UnequalExpressionParser"
 	__PARSER_OPERATOR__ =         ("!", "=")
 
 
 class LessThanExpression(CompareExpression):
+	"""A *less than* expression."""
+
 	__PARSER_NAME__ =             "LessThanExpressionParser"
 	__PARSER_OPERATOR__ =         ("<",)
 
 
 class LessThanEqualExpression(CompareExpression):
+	"""A *less than or equal* expression."""
+
 	__PARSER_NAME__ =             "LessThanEqualExpressionParser"
 	__PARSER_OPERATOR__ =         ("<", "=")
 
 
 class GreaterThanExpression(CompareExpression):
+	"""A *greater than* expression."""
+
 	__PARSER_NAME__ =             "GreaterThanExpressionParser"
 	__PARSER_OPERATOR__ =         (">",)
 
 
 class GreaterThanEqualExpression(CompareExpression):
+	"""A *greater than or equal* expression."""
+
 	__PARSER_NAME__ =             "GreaterThanEqualExpressionParser"
 	__PARSER_OPERATOR__ =         (">", "=")
 
 
 class AndExpression(LogicalExpression):
+	"""An *and* expression."""
+
 	__PARSER_NAME__ =             "AndExpressionParser"
 	__PARSER_OPERATOR__ =         "and"
 
 
 class OrExpression(LogicalExpression):
+	"""An *or* expression."""
+
 	__PARSER_NAME__ =             "OrExpressionParser"
 	__PARSER_OPERATOR__ =         "or"
 
 
 class XorExpression(LogicalExpression):
+	"""An *xor* expression."""
+
 	__PARSER_NAME__ =             "XorExpressionParser"
 	__PARSER_OPERATOR__ =         "xor"
 
 
 class InExpression(LogicalExpression):
+	"""An *in* expression."""
+
 	__PARSER_NAME__ =             "InExpressionParser"
 	__PARSER_OPERATOR__ =         "in"
 
 
 class NotInExpression(LogicalExpression):
+	"""A *not in* expression."""
+
 	__PARSER_NAME__ =             "NotInExpressionParser"
 	__PARSER_OPERATOR__ =         ["not", "in"]
 
@@ -430,6 +475,7 @@ class ListElement(Expression):
 # Literals
 # ==============================================================================
 class Literal(Expression):
+	"""Base-class for all literals."""
 	pass
 
 class StringLiteral(Literal):
@@ -549,6 +595,8 @@ class Identifier(Expression):
 # Statements
 # ==============================================================================
 class Statement(CodeDOMObject):
+	"""Base-class for all statements."""
+
 	def __init__(self, commentText=""):
 		super().__init__()
 		self._commentText = commentText
@@ -599,6 +647,8 @@ class ConditionalBlockStatement(BlockStatement):
 # Empty and comment lines
 # ==============================================================================
 class EmptyLine(CodeDOMObject):
+	"""Represents an empty line in the document."""
+
 	def __init__(self):
 		super().__init__()
 
@@ -621,6 +671,8 @@ class EmptyLine(CodeDOMObject):
 
 
 class CommentLine(CodeDOMObject):
+	"""Represents a comment line in the document."""
+
 	def __init__(self, commentText):
 		super().__init__()
 		self._commentText = commentText

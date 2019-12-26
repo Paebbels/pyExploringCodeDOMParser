@@ -14,6 +14,7 @@ An exploring Code-DOM parser.
 ## Contributors:
 
 * [Patrick Lehmann](https://github.com/Paebbels) (Maintainer)
+* [Martin Zabel](https://github.com/mzabeltud)
 
 
 ## License

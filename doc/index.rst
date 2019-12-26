@@ -8,23 +8,16 @@ An exploring Code-DOM parser.
    Write the documentation
 
 
-Installation/Updates
-********************
+Contributors
+************
 
-Installation using PIP
-======================
-
-.. code-block:: bash
-
-   pip3 install pyExploringCodeDOMParser
+* `Patrick Lehmann <https://github.com/Paebbels>`_ (Maintainer)
 
 
-Updating using PIP
-==================
+License
+*******
 
-.. code-block:: bash
-
-   pip3 install -U pyExploringCodeDOMParser
+This library is licensed under **Apache License 2.0**.
 
 ------------------------------------
 
@@ -34,12 +27,12 @@ Updating using PIP
 
    This document was generated on |docdate|.
 
-.. #
-   toctree::
-   :caption: Domain Specific Paths
+.. toctree::
+   :caption: Overview
    :hidden:
 
-
+   Installation
+   Dependencies
 
 .. toctree::
    :caption: Classes
@@ -52,5 +45,8 @@ Updating using PIP
    :caption: Appendix
    :hidden:
 
+   License
    genindex
+
+.. #
    py-modindex
