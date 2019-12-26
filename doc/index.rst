@@ -27,6 +27,7 @@ Contributors
 ************
 
 * `Patrick Lehmann <https://github.com/Paebbels>`_ (Maintainer)
+* `Martin Zabel <https://github.com/mzabeltud>`_
 
 
 License
