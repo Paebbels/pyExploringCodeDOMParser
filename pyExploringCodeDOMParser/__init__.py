@@ -50,8 +50,9 @@ __api__ = [
 	'UnaryExpression',
 	'NotExpression',
 	'BinaryExpression',
-	'LogicalExpression',
 	'CompareExpression',
+	'LogicalExpression',
+	'SetExpression',
 	'EqualExpression',
 	'UnequalExpression',
 	'LessThanExpression',
@@ -357,12 +358,16 @@ class BinaryExpression(Expression):
 
 		return "({left!s} {op} {right!s})".format(left=self._leftChild, op=op, right=self._rightChild)
 
+class CompareExpression(BinaryExpression):
+	"""Base-class for all comparison expressions."""
+	pass
+
 class LogicalExpression(BinaryExpression):
 	"""Base-class for all logical expressions."""
 	pass
 
-class CompareExpression(LogicalExpression):
-	"""Base-class for all comparison expressions."""
+class SetExpression(BinaryExpression):
+	"""Base-class for all set expressions."""
 	pass
 
 class EqualExpression(CompareExpression):
@@ -428,14 +433,14 @@ class XorExpression(LogicalExpression):
 	__PARSER_OPERATOR__ =         "xor"
 
 
-class InExpression(LogicalExpression):
+class InExpression(SetExpression):
 	"""An *in* expression."""
 
 	__PARSER_NAME__ =             "InExpressionParser"
 	__PARSER_OPERATOR__ =         "in"
 
 
-class NotInExpression(LogicalExpression):
+class NotInExpression(SetExpression):
 	"""A *not in* expression."""
 
 	__PARSER_NAME__ =             "NotInExpressionParser"
